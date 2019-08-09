@@ -1,0 +1,561 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : root
+Source Server Version : 50717
+Source Host           : localhost:3306
+Source Database       : jxc_db
+
+Target Server Type    : MYSQL
+Target Server Version : 50717
+File Encoding         : 65001
+
+Date: 2019-08-09 10:22:19
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `customer_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `customer_info`;
+CREATE TABLE `customer_info` (
+  `cusId` int(11) NOT NULL AUTO_INCREMENT,
+  `cusName` varchar(30) NOT NULL COMMENT '客户名称',
+  `cusShortName` varchar(30) DEFAULT NULL COMMENT '客户简称',
+  `cusAddress` varchar(40) DEFAULT NULL COMMENT '地址',
+  `cusPostCode` varchar(20) DEFAULT NULL COMMENT '邮编',
+  `cusPhone` varchar(20) DEFAULT NULL COMMENT '电话',
+  `cusFax` varchar(20) DEFAULT NULL COMMENT '传真',
+  `cusContact` varchar(20) DEFAULT NULL COMMENT '联系人',
+  `cusContactPhone` varchar(20) DEFAULT NULL COMMENT '联系人电话',
+  `cusBank` varchar(20) DEFAULT NULL COMMENT '开户银行',
+  `cusBankCard` varchar(30) DEFAULT NULL COMMENT '银行卡号',
+  `cusEmail` varchar(30) DEFAULT NULL COMMENT '电子邮箱',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`cusId`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='客户基本信息表';
+
+-- ----------------------------
+-- Records of customer_info
+-- ----------------------------
+INSERT INTO `customer_info` VALUES ('4', '翔哥', '翔哥', '这里', '528300', '12345678910', '123456', '朴妮唛', '12345678910', 'zxc', 'zxc', '123@jntm.com', '2019-08-01 11:40:52', '2019-08-08 16:47:02');
+INSERT INTO `customer_info` VALUES ('5', '鼓风', '鼓风', '史蒂夫', '321', '01987654321', '123452', '萨达', '01987654321', '阿萨德', '阿什顿', '3454545@qq.com', '2019-08-01 11:41:41', '2019-08-08 16:48:01');
+INSERT INTO `customer_info` VALUES ('6', '阿萨德', '阿萨德', '奥术大师大所', '834500', '4545222222', '4545222222', '斯达舒', '1383838438', '工商银行', '4552424525222455421', '', '2019-08-08 13:15:47', '2019-08-08 16:48:57');
+INSERT INTO `customer_info` VALUES ('15', '战三', '', 'sss', '', '12315345', '', '战三', '12315345', '49879821489', '478879', '', '2019-08-08 17:37:14', '2019-08-08 17:39:41');
+INSERT INTO `customer_info` VALUES ('16', '翔哥', null, null, null, null, null, null, '1234567890', null, null, null, '2019-08-09 10:05:58', '2019-08-09 10:05:58');
+
+-- ----------------------------
+-- Table structure for `depot_in_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `depot_in_detail`;
+CREATE TABLE `depot_in_detail` (
+  `detailId` int(11) NOT NULL AUTO_INCREMENT,
+  `depotInNo` varchar(20) NOT NULL COMMENT '入库编号',
+  `productNo` varchar(20) NOT NULL COMMENT '产品编号',
+  `productNumber` int(11) NOT NULL COMMENT '产品数量',
+  `repositoryId` int(20) NOT NULL COMMENT '存放到n号仓库',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`detailId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='入库详细表';
+
+-- ----------------------------
+-- Records of depot_in_detail
+-- ----------------------------
+INSERT INTO `depot_in_detail` VALUES ('1', 'No4396', 'SP0001', '100', '1', '2019-08-05 19:37:57', '2019-08-07 16:01:07');
+INSERT INTO `depot_in_detail` VALUES ('2', 'No9961', 'SP0002', '20', '2', '2019-08-05 19:38:29', '2019-08-07 16:01:17');
+
+-- ----------------------------
+-- Table structure for `depot_in_master`
+-- ----------------------------
+DROP TABLE IF EXISTS `depot_in_master`;
+CREATE TABLE `depot_in_master` (
+  `depotInId` int(11) NOT NULL AUTO_INCREMENT,
+  `depotInNo` varchar(20) NOT NULL COMMENT '入库编号',
+  `empId` int(11) NOT NULL COMMENT '操作员工',
+  `depotInUnit` varchar(10) NOT NULL COMMENT '进货单位',
+  `depotInTime` datetime DEFAULT NULL COMMENT '入库时间',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`depotInId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='入库总表';
+
+-- ----------------------------
+-- Records of depot_in_master
+-- ----------------------------
+INSERT INTO `depot_in_master` VALUES ('1', 'No4396', '1', 'KG', '2019-08-06 19:43:01', '2019-08-05 19:43:10', '2019-08-07 16:01:25');
+INSERT INTO `depot_in_master` VALUES ('2', 'No9961', '2', '瓶', '2019-08-06 19:43:43', '2019-08-05 19:43:47', '2019-08-07 16:01:26');
+
+-- ----------------------------
+-- Table structure for `depot_out_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `depot_out_detail`;
+CREATE TABLE `depot_out_detail` (
+  `detailId` int(11) NOT NULL AUTO_INCREMENT,
+  `deportOutNo` varchar(20) NOT NULL COMMENT '出库编号',
+  `productNo` varchar(20) NOT NULL COMMENT '产品编号',
+  `productNumber` int(11) NOT NULL COMMENT '产品数量',
+  `fromRepositoryId` int(20) NOT NULL COMMENT '从n号仓库出库',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`detailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出库详细表';
+
+-- ----------------------------
+-- Records of depot_out_detail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `depot_out_master`
+-- ----------------------------
+DROP TABLE IF EXISTS `depot_out_master`;
+CREATE TABLE `depot_out_master` (
+  `depotOutId` int(11) NOT NULL AUTO_INCREMENT,
+  `depotOutNo` varchar(20) NOT NULL COMMENT '出库编号',
+  `empId` int(11) NOT NULL COMMENT '操作员工',
+  `depotOutUnit` varchar(11) NOT NULL COMMENT '收货单位',
+  `depotOutTime` datetime DEFAULT NULL COMMENT '出库时间',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`depotOutId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='出库总表';
+
+-- ----------------------------
+-- Records of depot_out_master
+-- ----------------------------
+INSERT INTO `depot_out_master` VALUES ('1', 'No6666', '2', '3', '2019-08-24 16:02:49', '2019-08-07 16:02:52', '2019-08-07 16:02:52');
+
+-- ----------------------------
+-- Table structure for `employee_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `employee_info`;
+CREATE TABLE `employee_info` (
+  `empId` int(11) NOT NULL AUTO_INCREMENT,
+  `empNo` varchar(20) NOT NULL COMMENT '员工编号,登录账号',
+  `empPwd` varchar(20) NOT NULL COMMENT '员工密码',
+  `empName` varchar(20) NOT NULL COMMENT '员工姓名',
+  `empSex` int(11) NOT NULL COMMENT '员工性别,0:女,1：男',
+  `empPolitics` varchar(20) NOT NULL COMMENT '政治面貌',
+  `roleId` int(11) NOT NULL COMMENT '员工角色id',
+  `empBirthday` datetime DEFAULT NULL COMMENT '出生日期',
+  `empAddress` varchar(30) DEFAULT NULL COMMENT '地址',
+  `empPostCode` varchar(20) DEFAULT NULL COMMENT '邮编',
+  `empPhone` varchar(20) DEFAULT NULL COMMENT '电话号码',
+  `empEmail` varchar(20) DEFAULT NULL COMMENT '电子邮箱',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`empId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='员工基本信息表';
+
+-- ----------------------------
+-- Records of employee_info
+-- ----------------------------
+INSERT INTO `employee_info` VALUES ('1', 'admin', '123456', '逼哥', '0', '群众', '1', '2019-07-30 00:00:00', '广东深圳', '335500', '15936235658', '2803726256@qq.com', '2019-07-26 09:11:22', '2019-08-07 16:14:05');
+INSERT INTO `employee_info` VALUES ('2', 'emp001', '123456', '卡卡罗特', '0', '党员', '2', '2019-06-25 15:27:53', '广东广州', '331122', '15985795654', '54679854@qq.com', '2019-07-26 15:28:31', '2019-08-07 16:16:06');
+INSERT INTO `employee_info` VALUES ('3', 'emp002', '123456', '仓库管理员', '1', '英雄', '2', '2019-08-25 10:48:09', '广东深圳', '335500', '15936235658', '2803726256@qq.com', '2019-08-06 10:48:18', '2019-08-06 10:48:33');
+INSERT INTO `employee_info` VALUES ('4', 'NO1908003', 'NO1908003', '王二', '1', '群众', '2', '2019-08-08 00:00:00', '广东广州', '841230', '15975421052', '2588445454@qq.com', '2019-08-08 16:03:17', '2019-08-08 16:50:30');
+
+-- ----------------------------
+-- Table structure for `employee_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `employee_role`;
+CREATE TABLE `employee_role` (
+  `roleId` int(11) NOT NULL AUTO_INCREMENT,
+  `roleName` varchar(20) NOT NULL COMMENT '角色名称',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`roleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='员工角色表';
+
+-- ----------------------------
+-- Records of employee_role
+-- ----------------------------
+INSERT INTO `employee_role` VALUES ('1', '总管', '2019-07-26 09:11:16', '2019-08-07 16:14:31');
+INSERT INTO `employee_role` VALUES ('2', '仓库管理员', '2019-07-26 15:26:07', '2019-07-26 15:26:07');
+
+-- ----------------------------
+-- Table structure for `emp_function`
+-- ----------------------------
+DROP TABLE IF EXISTS `emp_function`;
+CREATE TABLE `emp_function` (
+  `funId` int(11) NOT NULL AUTO_INCREMENT,
+  `funName` varchar(20) NOT NULL COMMENT '权限名称',
+  `funParent` int(11) NOT NULL COMMENT '父亲结点',
+  `funPath` varchar(30) DEFAULT NULL COMMENT '功能路径',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`funId`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='用户权限表';
+
+-- ----------------------------
+-- Records of emp_function
+-- ----------------------------
+INSERT INTO `emp_function` VALUES ('1', '基本信息管理', '0', '/', '2019-07-26 09:13:25', '2019-07-26 09:13:25');
+INSERT INTO `emp_function` VALUES ('2', '入库管理', '0', '/', '2019-07-26 09:13:57', '2019-07-26 09:13:57');
+INSERT INTO `emp_function` VALUES ('3', '销售管理', '0', '/', '2019-07-26 09:14:42', '2019-07-26 09:14:42');
+INSERT INTO `emp_function` VALUES ('4', '退货管理', '0', '/', '2019-07-26 09:15:30', '2019-07-26 09:15:30');
+INSERT INTO `emp_function` VALUES ('5', '库存管理', '0', '/', '2019-07-26 09:15:58', '2019-07-26 09:15:58');
+INSERT INTO `emp_function` VALUES ('7', '供应商基本信息', '1', 'providerinfo', '2019-07-26 09:17:16', '2019-08-07 18:13:10');
+INSERT INTO `emp_function` VALUES ('8', '商品基本信息', '1', 'productinfo', '2019-07-26 09:17:43', '2019-07-29 18:52:12');
+INSERT INTO `emp_function` VALUES ('9', '客户基本信息', '1', 'customerinfo', '2019-07-26 09:18:05', '2019-08-07 18:13:23');
+INSERT INTO `emp_function` VALUES ('10', '员工基本信息', '1', 'empinfo', '2019-07-26 09:18:37', '2019-07-28 09:10:13');
+INSERT INTO `emp_function` VALUES ('11', '申请采购', '2', 'addpurchase', '2019-07-26 09:20:09', '2019-08-05 16:00:44');
+INSERT INTO `emp_function` VALUES ('12', '采购审核', '2', 'purchaselist', '2019-07-26 09:20:30', '2019-08-07 10:52:28');
+INSERT INTO `emp_function` VALUES ('13', '采购订单查询', '2', 'findpurchase', '2019-07-26 09:21:11', '2019-08-06 09:18:41');
+INSERT INTO `emp_function` VALUES ('14', '入库查询', '2', 'depotInList', '2019-08-05 16:02:39', '2019-08-06 09:52:32');
+INSERT INTO `emp_function` VALUES ('15', '销售出库', '3', 'sale/chuku', '2019-07-26 09:21:25', '2019-08-08 12:28:52');
+INSERT INTO `emp_function` VALUES ('16', '销售签单', '3', 'sale/xiaoshou', '2019-08-05 16:04:01', '2019-08-08 12:28:57');
+INSERT INTO `emp_function` VALUES ('17', '销售商品查询', '3', 'sale/yssp', '2019-07-26 09:21:50', '2019-08-08 12:28:47');
+INSERT INTO `emp_function` VALUES ('18', '销售签单查询', '3', 'sale/xinxi', '2019-08-05 16:07:42', '2019-08-08 12:28:30');
+INSERT INTO `emp_function` VALUES ('19', '入库退货', '4', 'returnpurchase', '2019-08-02 17:25:57', '2019-08-07 18:13:45');
+INSERT INTO `emp_function` VALUES ('20', '销售退货', '4', 'returnsale', '2019-07-26 09:22:15', '2019-08-07 18:13:55');
+INSERT INTO `emp_function` VALUES ('22', '库存调拨', '5', 'repository', '2019-07-26 09:23:11', '2019-08-08 13:55:26');
+INSERT INTO `emp_function` VALUES ('26', '统计查询', '0', '/', '2019-08-05 11:13:12', '2019-08-05 11:13:12');
+INSERT INTO `emp_function` VALUES ('27', '供应商查询', '26', 'findProvider', '2019-08-05 11:14:08', '2019-08-05 14:43:57');
+INSERT INTO `emp_function` VALUES ('28', '商品查询', '26', 'findProduct', '2019-08-05 11:14:33', '2019-08-05 14:43:57');
+INSERT INTO `emp_function` VALUES ('29', '客户信息查询', '26', 'findCustomer', '2019-08-05 11:14:41', '2019-08-05 14:43:58');
+
+-- ----------------------------
+-- Table structure for `order_status`
+-- ----------------------------
+DROP TABLE IF EXISTS `order_status`;
+CREATE TABLE `order_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` varchar(20) NOT NULL COMMENT '状态名',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='状态表';
+
+-- ----------------------------
+-- Records of order_status
+-- ----------------------------
+INSERT INTO `order_status` VALUES ('1', '待审核', '2019-07-31 15:35:09', '2019-07-31 15:35:09');
+INSERT INTO `order_status` VALUES ('2', '已批准', '2019-07-31 15:35:41', '2019-07-31 15:35:41');
+INSERT INTO `order_status` VALUES ('3', '未批准', '2019-07-31 15:35:59', '2019-07-31 15:35:59');
+INSERT INTO `order_status` VALUES ('4', '已验收', '2019-07-31 15:35:59', '2019-07-31 15:35:59');
+INSERT INTO `order_status` VALUES ('5', '已售出', '2019-07-31 15:35:59', '2019-07-31 15:35:59');
+INSERT INTO `order_status` VALUES ('6', '已调拨', '2019-07-31 15:35:59', '2019-07-31 15:35:59');
+INSERT INTO `order_status` VALUES ('7', '待发货', '2019-08-08 12:29:15', '2019-08-08 13:31:14');
+INSERT INTO `order_status` VALUES ('8', '可调拨', '2019-08-08 14:04:42', '2019-08-08 14:04:48');
+
+-- ----------------------------
+-- Table structure for `product_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `product_info`;
+CREATE TABLE `product_info` (
+  `productId` int(11) NOT NULL AUTO_INCREMENT,
+  `productNo` varchar(20) NOT NULL COMMENT '产品编号',
+  `productName` varchar(30) NOT NULL COMMENT '产品名称',
+  `productShortName` varchar(20) NOT NULL COMMENT '产品简称',
+  `productSize` varchar(30) DEFAULT NULL COMMENT '产品规格',
+  `typeNo` varchar(15) NOT NULL COMMENT '类目编号',
+  `productInPrice` decimal(8,2) NOT NULL COMMENT '产品进价',
+  `productOutPrice` decimal(8,2) NOT NULL COMMENT '产品出价',
+  `productRetailPrice` decimal(8,2) NOT NULL COMMENT '产品建议零售价',
+  `productPlace` varchar(30) DEFAULT NULL COMMENT '产品产地',
+  `productUnit` varchar(10) DEFAULT NULL COMMENT '计量单位',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`productId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='产品基本信息表';
+
+-- ----------------------------
+-- Records of product_info
+-- ----------------------------
+INSERT INTO `product_info` VALUES ('1', 'SP0001', '海南香蕉', '香蕉', '中等', 'ty0001', '2.40', '6.00', '6.50', '海南', 'KG', '2019-07-29 16:55:36', '2019-07-31 15:06:23');
+INSERT INTO `product_info` VALUES ('2', 'SP0002', '蓝月亮洗衣液', '洗衣液', '4KG', 'ty0002', '25.30', '30.00', '40.00', '广州', '瓶', '2019-07-29 16:59:32', '2019-07-31 15:06:15');
+INSERT INTO `product_info` VALUES ('3', 'SP20190808002', '百事可乐', '百事可乐', '中', 'ty0003', '2.00', '3.00', '3.00', 'USA', '瓶', '2019-08-08 16:09:23', '2019-08-08 16:09:23');
+INSERT INTO `product_info` VALUES ('4', 'SP20190809003', '翔哥牙签', '翔哥', '300ml', 'ty0002', '1.00', '2.00', '2.00', '佛山顺德', '瓶', '2019-08-09 10:10:02', '2019-08-09 10:12:46');
+
+-- ----------------------------
+-- Table structure for `product_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `product_type`;
+CREATE TABLE `product_type` (
+  `typeId` int(11) NOT NULL AUTO_INCREMENT,
+  `typeName` varchar(20) NOT NULL COMMENT '类别名称',
+  `typeNo` varchar(15) NOT NULL COMMENT '类目编号',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`typeId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='商品类别表';
+
+-- ----------------------------
+-- Records of product_type
+-- ----------------------------
+INSERT INTO `product_type` VALUES ('1', '水果', 'ty0001', '2019-07-29 16:31:37', '2019-07-29 18:59:37');
+INSERT INTO `product_type` VALUES ('2', '生活用品', 'ty0002', '2019-07-29 16:31:53', '2019-07-29 18:59:40');
+INSERT INTO `product_type` VALUES ('3', '饮料', 'ty0003', '2019-07-29 16:34:00', '2019-07-29 18:59:44');
+INSERT INTO `product_type` VALUES ('4', '休闲食品', 'ty0004', '2019-07-30 10:34:59', '2019-07-30 10:35:07');
+
+-- ----------------------------
+-- Table structure for `provider_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `provider_info`;
+CREATE TABLE `provider_info` (
+  `proId` int(11) NOT NULL AUTO_INCREMENT,
+  `proName` varchar(30) NOT NULL COMMENT '供应商名称',
+  `proShortName` varchar(30) DEFAULT NULL COMMENT '供应商简称',
+  `proAddress` varchar(40) DEFAULT NULL COMMENT '地址',
+  `proPostCode` varchar(20) DEFAULT NULL COMMENT '邮编',
+  `proPhone` varchar(20) DEFAULT NULL COMMENT '电话',
+  `proFax` varchar(20) DEFAULT NULL COMMENT '传真',
+  `proContact` varchar(20) DEFAULT NULL COMMENT '联系人',
+  `proContactPhone` varchar(20) DEFAULT NULL COMMENT '联系人电话',
+  `proBank` varchar(20) DEFAULT NULL COMMENT '开户银行',
+  `proBankCard` varchar(30) DEFAULT NULL COMMENT '银行卡号',
+  `proEmail` varchar(30) DEFAULT NULL COMMENT '电子邮箱',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`proId`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='供应商基本信息表';
+
+-- ----------------------------
+-- Records of provider_info
+-- ----------------------------
+INSERT INTO `provider_info` VALUES ('1', '辣条供应商', '辣条供应商', '湖南', '528000', '13360353224', '13360353224', '13360353224', '13360353224', '工商银行', '1354654131316513513', 'sdfsd512@qq.com', '2019-08-05 12:20:47', '2019-08-05 12:20:47');
+INSERT INTO `provider_info` VALUES ('2', '洗衣液供应商', '洗衣液供应商', '湖南', '528000', '13360353224', '13360353224', '13360353224', '13360353224', '工商银行', '1354654131316513513', 'sdfsd512@qq.com', '2019-08-05 12:21:01', '2019-08-05 12:21:01');
+INSERT INTO `provider_info` VALUES ('3', '玩具供应商', '玩具供应商', '湖南', '528000', '13360353224', '13360353224', '13360353224', '13360353224', '工商银行', '1354654131316513513', 'sdfsd512@qq.com', '2019-08-05 12:21:13', '2019-08-05 12:21:13');
+INSERT INTO `provider_info` VALUES ('4', '百事可乐供应商', '百事可乐', 'USA..........', '825133', '13362365651', '13362365651', '萨顶顶', '13362365651', '工商银行', '415214654354354331', '1231435@qq.com', '2019-08-08 16:05:54', '2019-08-08 16:43:56');
+
+-- ----------------------------
+-- Table structure for `purchase_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `purchase_detail`;
+CREATE TABLE `purchase_detail` (
+  `detailId` int(11) NOT NULL AUTO_INCREMENT,
+  `purchaseNo` varchar(20) NOT NULL COMMENT '采购订单编号',
+  `productNo` varchar(20) NOT NULL COMMENT '产品编号',
+  `productNumber` int(11) NOT NULL COMMENT '产品数量',
+  `subtotal` decimal(8,2) DEFAULT NULL COMMENT '小计',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`detailId`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='采购明细表';
+
+-- ----------------------------
+-- Records of purchase_detail
+-- ----------------------------
+INSERT INTO `purchase_detail` VALUES ('1', 'NO0001', 'sp0001', '200', '480.00', '2019-07-30 19:43:27', '2019-07-30 19:43:27');
+INSERT INTO `purchase_detail` VALUES ('2', 'NO0001', 'sp0002', '100', '2530.00', '2019-07-30 19:43:27', '2019-07-30 19:43:27');
+INSERT INTO `purchase_detail` VALUES ('3', 'NO20190731003', 'sp0001', '23', '55.20', '2019-07-31 14:48:11', '2019-07-31 14:48:11');
+INSERT INTO `purchase_detail` VALUES ('4', 'NO20190731003', 'sp0002', '1', '25.30', '2019-07-31 14:48:11', '2019-07-31 14:48:11');
+INSERT INTO `purchase_detail` VALUES ('5', 'NO20190807004', 'SP0001', '100', '240.00', '2019-08-07 17:55:55', '2019-08-07 17:55:55');
+INSERT INTO `purchase_detail` VALUES ('8', 'NO20190807005', 'SP0002', '10', '253.00', '2019-08-07 19:54:25', '2019-08-07 19:54:25');
+INSERT INTO `purchase_detail` VALUES ('10', 'NO20190807007', 'SP0002', '100', '2530.00', '2019-08-07 19:58:27', '2019-08-07 19:58:27');
+INSERT INTO `purchase_detail` VALUES ('11', 'NO20190808008', 'SP0001', '3', '7.20', '2019-08-08 15:43:51', '2019-08-08 15:43:51');
+INSERT INTO `purchase_detail` VALUES ('12', 'NO20190808010', 'SP0002', '10', '253.00', '2019-08-08 17:50:18', '2019-08-08 17:50:18');
+
+-- ----------------------------
+-- Table structure for `purchase_master`
+-- ----------------------------
+DROP TABLE IF EXISTS `purchase_master`;
+CREATE TABLE `purchase_master` (
+  `purchaseId` int(11) NOT NULL AUTO_INCREMENT,
+  `purchaseNo` varchar(20) NOT NULL COMMENT '采购订单编号',
+  `purchaser` varchar(20) NOT NULL COMMENT '采购人',
+  `purchaseTime` datetime NOT NULL COMMENT '采购时间',
+  `proposer` varchar(20) DEFAULT NULL COMMENT '申请人',
+  `applyBranch` varchar(30) DEFAULT NULL COMMENT '申请部门',
+  `totalPrice` decimal(8,2) DEFAULT NULL COMMENT '采购总价',
+  `explains` varchar(50) DEFAULT NULL COMMENT '说明',
+  `statusId` int(11) NOT NULL DEFAULT '0' COMMENT '采购订单状态',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`purchaseId`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='采购订单总表';
+
+-- ----------------------------
+-- Records of purchase_master
+-- ----------------------------
+INSERT INTO `purchase_master` VALUES ('3', 'NO0001', '张三', '2019-07-31 00:00:00', '李四', '采购部', '3010.00', '不可描述', '1', '2019-07-30 19:43:27', '2019-08-07 14:40:56');
+INSERT INTO `purchase_master` VALUES ('4', 'NO20190731003', '李四', '2019-07-02 00:00:00', '管理员', '采购部', '80.50', '不可描述', '1', '2019-07-31 14:48:11', '2019-08-07 14:40:58');
+INSERT INTO `purchase_master` VALUES ('5', 'NO20190807004', '八戒', '2019-08-12 00:00:00', '逼哥', '阿萨德', '240.00', '大基霸', '3', '2019-08-07 17:55:55', '2019-08-08 17:34:51');
+INSERT INTO `purchase_master` VALUES ('7', 'NO20190807005', '萨达', '2019-08-07 00:00:00', '逼哥', '爱仕达', '253.00', '奥术大师', '2', '2019-08-07 19:54:25', '2019-08-07 19:55:29');
+INSERT INTO `purchase_master` VALUES ('8', 'NO20190807007', '爱仕达', '2019-08-07 00:00:00', '逼哥', '收到', '2530.00', '爱仕达', '2', '2019-08-07 19:58:27', '2019-08-07 19:59:51');
+INSERT INTO `purchase_master` VALUES ('10', 'NO20190808008', '我', '2019-08-13 00:00:00', '逼哥', 'a', '7.20', '123', '1', '2019-08-08 15:43:51', '2019-08-08 15:43:51');
+INSERT INTO `purchase_master` VALUES ('14', 'NO20190808010', 'zhang', '2019-08-07 00:00:00', '逼哥', '采购部', '253.00', '', '1', '2019-08-08 17:50:18', '2019-08-08 17:50:18');
+
+-- ----------------------------
+-- Table structure for `repository`
+-- ----------------------------
+DROP TABLE IF EXISTS `repository`;
+CREATE TABLE `repository` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '项号',
+  `productNo` varchar(20) NOT NULL COMMENT '商品编号',
+  `productCount` int(20) NOT NULL COMMENT '商品数量',
+  `repositoryTypeId` int(20) NOT NULL COMMENT '仓库id',
+  `statusId` int(20) NOT NULL COMMENT '仓库商品状态',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of repository
+-- ----------------------------
+INSERT INTO `repository` VALUES ('1', 'SP0001', '2', '1', '8', '2019-08-09 10:00:39', '2019-08-08 17:43:28');
+INSERT INTO `repository` VALUES ('2', 'SP0002', '800', '1', '8', '2019-08-08 17:58:44', '2019-08-08 17:58:44');
+INSERT INTO `repository` VALUES ('3', 'SP0001', '890', '2', '8', '2019-08-09 10:03:18', '2019-08-08 17:43:28');
+INSERT INTO `repository` VALUES ('4', 'SP0002', '4300', '3', '8', '2019-08-08 16:43:04', '2019-08-08 16:43:04');
+INSERT INTO `repository` VALUES ('7', 'SP0001', '100', '3', '8', '2019-08-09 09:57:19', '2019-08-08 15:21:10');
+INSERT INTO `repository` VALUES ('8', 'SP0002', '200', '2', '8', '2019-08-08 17:59:00', '2019-08-08 17:59:00');
+
+-- ----------------------------
+-- Table structure for `repository_allot`
+-- ----------------------------
+DROP TABLE IF EXISTS `repository_allot`;
+CREATE TABLE `repository_allot` (
+  `repositoryallotId` int(11) NOT NULL AUTO_INCREMENT,
+  `fromRepositoryId` int(20) NOT NULL COMMENT '源仓库',
+  `toRepositoryId` int(20) NOT NULL COMMENT '目标仓库',
+  `productNo` varchar(20) NOT NULL COMMENT '商品编号',
+  `allotCount` int(20) NOT NULL COMMENT '调拨数量',
+  `statusId` int(11) NOT NULL DEFAULT '0' COMMENT '审批状态',
+  `createTime` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`repositoryallotId`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of repository_allot
+-- ----------------------------
+INSERT INTO `repository_allot` VALUES ('44', '2', '3', 'SP0001', '1000', '6', '2019-08-08 14:03:44', '2019-08-08 14:03:44');
+INSERT INTO `repository_allot` VALUES ('45', '2', '3', 'SP0001', '500', '6', '2019-08-08 14:10:43', '2019-08-08 14:10:43');
+INSERT INTO `repository_allot` VALUES ('46', '3', '1', 'SP0002', '100', '6', '2019-08-08 14:10:57', '2019-08-08 14:10:57');
+INSERT INTO `repository_allot` VALUES ('47', '3', '2', 'SP0002', '100', '6', '2019-08-08 14:43:43', '2019-08-08 14:43:43');
+INSERT INTO `repository_allot` VALUES ('48', '3', '1', 'SP0001', '2', '6', '2019-08-08 15:20:20', '2019-08-08 15:20:20');
+INSERT INTO `repository_allot` VALUES ('49', '1', '3', 'SP0001', '100', '6', '2019-08-08 15:21:07', '2019-08-08 15:21:07');
+INSERT INTO `repository_allot` VALUES ('50', '1', '3', 'SP0002', '3000', '6', '2019-08-08 16:42:45', '2019-08-08 16:42:45');
+INSERT INTO `repository_allot` VALUES ('51', '1', '2', 'SP0001', '400', '6', '2019-08-08 17:42:37', '2019-08-08 17:42:37');
+INSERT INTO `repository_allot` VALUES ('52', '2', '1', 'SP0002', '600', '6', '2019-08-08 17:58:42', '2019-08-08 17:58:42');
+
+-- ----------------------------
+-- Table structure for `repository_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `repository_type`;
+CREATE TABLE `repository_type` (
+  `repositoryTypeId` int(20) NOT NULL AUTO_INCREMENT COMMENT '仓库类型Id',
+  `repositoryTypeName` varchar(20) NOT NULL COMMENT '仓库名字',
+  `createTime` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`repositoryTypeId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of repository_type
+-- ----------------------------
+INSERT INTO `repository_type` VALUES ('1', 'A仓库', '2019-08-05 10:11:08', '2019-08-05 10:11:15');
+INSERT INTO `repository_type` VALUES ('2', 'B仓库', '2019-08-05 10:11:19', '2019-08-05 10:11:19');
+INSERT INTO `repository_type` VALUES ('3', 'C仓库', '2019-08-06 14:22:22', '2019-08-06 14:22:22');
+
+-- ----------------------------
+-- Table structure for `role_function`
+-- ----------------------------
+DROP TABLE IF EXISTS `role_function`;
+CREATE TABLE `role_function` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleId` int(11) NOT NULL COMMENT '角色id',
+  `funId` int(11) NOT NULL COMMENT '权限id',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='角色权限';
+
+-- ----------------------------
+-- Records of role_function
+-- ----------------------------
+INSERT INTO `role_function` VALUES ('1', '1', '1', '2019-07-26 09:24:00', '2019-07-26 09:24:00');
+INSERT INTO `role_function` VALUES ('2', '1', '2', '2019-07-26 09:24:05', '2019-07-26 09:24:05');
+INSERT INTO `role_function` VALUES ('3', '1', '3', '2019-07-26 09:24:11', '2019-07-26 09:24:11');
+INSERT INTO `role_function` VALUES ('4', '1', '4', '2019-07-26 09:24:16', '2019-07-26 09:24:16');
+INSERT INTO `role_function` VALUES ('5', '1', '5', '2019-07-26 09:24:22', '2019-07-26 09:24:22');
+INSERT INTO `role_function` VALUES ('6', '1', '6', '2019-07-26 09:24:27', '2019-07-26 09:24:27');
+INSERT INTO `role_function` VALUES ('7', '1', '7', '2019-07-26 15:26:42', '2019-07-27 21:33:34');
+INSERT INTO `role_function` VALUES ('8', '1', '8', '2019-07-26 15:27:12', '2019-07-27 21:33:42');
+INSERT INTO `role_function` VALUES ('9', '1', '9', '2019-07-27 21:33:47', '2019-07-27 21:33:47');
+INSERT INTO `role_function` VALUES ('10', '1', '10', '2019-07-27 21:33:53', '2019-07-27 21:33:53');
+INSERT INTO `role_function` VALUES ('11', '1', '11', '2019-07-27 21:34:02', '2019-07-27 21:34:02');
+INSERT INTO `role_function` VALUES ('12', '1', '12', '2019-07-27 21:34:06', '2019-07-27 21:34:06');
+INSERT INTO `role_function` VALUES ('13', '1', '13', '2019-07-27 21:34:10', '2019-07-27 21:34:10');
+INSERT INTO `role_function` VALUES ('14', '1', '14', '2019-07-27 21:34:15', '2019-07-27 21:34:15');
+INSERT INTO `role_function` VALUES ('15', '1', '15', '2019-07-27 21:34:32', '2019-07-27 21:34:32');
+INSERT INTO `role_function` VALUES ('16', '1', '16', '2019-07-27 21:34:37', '2019-07-27 21:34:37');
+INSERT INTO `role_function` VALUES ('17', '1', '17', '2019-07-27 21:34:42', '2019-07-27 21:34:42');
+INSERT INTO `role_function` VALUES ('18', '1', '18', '2019-07-27 21:34:46', '2019-07-27 21:34:46');
+INSERT INTO `role_function` VALUES ('19', '2', '2', '2019-07-27 21:35:14', '2019-07-27 21:35:14');
+INSERT INTO `role_function` VALUES ('20', '2', '13', '2019-07-27 21:35:41', '2019-08-07 16:18:36');
+INSERT INTO `role_function` VALUES ('21', '2', '14', '2019-07-27 21:35:45', '2019-08-07 16:18:38');
+INSERT INTO `role_function` VALUES ('22', '1', '19', '2019-08-05 16:26:31', '2019-08-05 16:29:53');
+INSERT INTO `role_function` VALUES ('23', '1', '20', '2019-08-05 16:26:48', '2019-08-05 16:29:46');
+INSERT INTO `role_function` VALUES ('24', '1', '21', '2019-08-05 16:26:58', '2019-08-05 16:29:43');
+INSERT INTO `role_function` VALUES ('25', '1', '22', '2019-08-05 16:27:33', '2019-08-05 16:29:37');
+INSERT INTO `role_function` VALUES ('26', '1', '23', '2019-08-05 16:28:07', '2019-08-05 16:29:58');
+INSERT INTO `role_function` VALUES ('27', '1', '24', '2019-08-05 16:28:59', '2019-08-05 16:29:33');
+INSERT INTO `role_function` VALUES ('28', '1', '25', '2019-08-05 16:30:15', '2019-08-05 16:30:15');
+INSERT INTO `role_function` VALUES ('29', '2', '3', '2019-08-07 16:17:22', '2019-08-07 16:17:22');
+INSERT INTO `role_function` VALUES ('30', '2', '15', '2019-08-07 16:25:08', '2019-08-07 16:26:53');
+INSERT INTO `role_function` VALUES ('31', '2', '4', '2019-08-07 16:26:29', '2019-08-07 16:26:55');
+INSERT INTO `role_function` VALUES ('32', '2', '19', '2019-08-07 16:27:50', '2019-08-07 16:27:50');
+INSERT INTO `role_function` VALUES ('33', '2', '20', '2019-08-07 16:28:02', '2019-08-07 16:28:02');
+INSERT INTO `role_function` VALUES ('34', '2', '5', '2019-08-07 16:28:56', '2019-08-07 16:28:56');
+INSERT INTO `role_function` VALUES ('35', '2', '21', '2019-08-07 16:29:39', '2019-08-07 16:29:39');
+INSERT INTO `role_function` VALUES ('36', '2', '22', '2019-08-07 16:29:45', '2019-08-07 16:29:45');
+INSERT INTO `role_function` VALUES ('37', '2', '23', '2019-08-07 16:29:54', '2019-08-07 16:29:54');
+INSERT INTO `role_function` VALUES ('38', '1', '26', '2019-08-08 14:20:26', '2019-08-08 14:20:26');
+INSERT INTO `role_function` VALUES ('39', '1', '27', '2019-08-08 14:20:59', '2019-08-08 14:20:59');
+INSERT INTO `role_function` VALUES ('40', '1', '28', '2019-08-08 14:21:17', '2019-08-08 14:21:17');
+INSERT INTO `role_function` VALUES ('41', '1', '29', '2019-08-08 14:21:29', '2019-08-08 14:21:29');
+INSERT INTO `role_function` VALUES ('42', '2', '26', '2019-08-08 14:37:24', '2019-08-08 14:37:24');
+INSERT INTO `role_function` VALUES ('43', '2', '27', '2019-08-08 14:37:34', '2019-08-08 14:37:34');
+INSERT INTO `role_function` VALUES ('44', '2', '28', '2019-08-08 14:38:05', '2019-08-08 14:38:05');
+INSERT INTO `role_function` VALUES ('45', '2', '29', '2019-08-08 14:38:10', '2019-08-08 14:38:10');
+
+-- ----------------------------
+-- Table structure for `sale_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `sale_detail`;
+CREATE TABLE `sale_detail` (
+  `detailId` int(11) NOT NULL AUTO_INCREMENT,
+  `saleNo` varchar(20) NOT NULL COMMENT '销售订单编号',
+  `productNo` varchar(20) NOT NULL COMMENT '产品编号',
+  `productNumber` int(11) NOT NULL COMMENT '产品数量',
+  `subtotal` decimal(8,2) DEFAULT NULL COMMENT '小计',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`detailId`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='采购明细表';
+
+-- ----------------------------
+-- Records of sale_detail
+-- ----------------------------
+INSERT INTO `sale_detail` VALUES ('20', 'SO201908091', 'SP0001', '10', '60.00', '2019-08-09 10:02:29', '2019-08-09 10:02:29');
+INSERT INTO `sale_detail` VALUES ('21', 'SO2019080917', 'SP0002', '10', '300.00', '2019-08-09 10:05:58', '2019-08-09 10:05:58');
+
+-- ----------------------------
+-- Table structure for `sale_master`
+-- ----------------------------
+DROP TABLE IF EXISTS `sale_master`;
+CREATE TABLE `sale_master` (
+  `saleId` int(11) NOT NULL AUTO_INCREMENT,
+  `saleNo` varchar(20) NOT NULL COMMENT '销售订单编号',
+  `saler` varchar(20) NOT NULL COMMENT '销售人',
+  `saleTime` datetime NOT NULL COMMENT '销售时间',
+  `proposer` varchar(20) NOT NULL COMMENT '申请人',
+  `phone` varchar(30) NOT NULL COMMENT '买家电话',
+  `totalPrice` decimal(8,2) DEFAULT NULL COMMENT '销售总价',
+  `explains` varchar(50) DEFAULT NULL COMMENT '说明',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `saleStatus` varchar(20) NOT NULL,
+  PRIMARY KEY (`saleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='采购订单总表';
+
+-- ----------------------------
+-- Records of sale_master
+-- ----------------------------
+INSERT INTO `sale_master` VALUES ('16', 'SO201908091', '逼哥', '2019-08-09 10:02:29', '翔哥', '12345678910', '60.00', '该签单没有备注', '2019-08-09 10:02:29', '2019-08-09 10:04:35', '已售出');
+INSERT INTO `sale_master` VALUES ('17', 'SO2019080917', '逼哥', '2019-08-09 10:05:58', '翔哥', '1234567890', '300.00', '该签单没有备注', '2019-08-09 10:05:58', '2019-08-09 10:05:58', '待出货');
